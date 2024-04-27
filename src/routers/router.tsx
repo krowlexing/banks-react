@@ -4,6 +4,7 @@ import { requestBank, requestBanks } from "../network/api";
 import { actions, store } from "../reducers/store";
 import { BankPage } from "../pages/BankPage";
 import { EditPage } from "../pages/EditPage";
+import { FilePosterPage } from "../pages/FilePosterPage";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -27,5 +28,9 @@ export const router = createBrowserRouter([
         loader: async ({ params }) => {
             return (await requestBank(+params["id"]!)).data;
         },
+    },
+    {
+        path: "/files",
+        element: <FilePosterPage />,
     },
 ]);

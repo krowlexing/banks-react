@@ -16,3 +16,7 @@ export async function requestBank(bic: number) {
 export async function updateBank(bank: BankEntry) {
     return await axios.post<BankEntry>(`/api/banks/${bank.bic}`, bank);
 }
+
+export async function postFile(file: File) {
+    return await axios.postForm(`/api/`, { file });
+}
