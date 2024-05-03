@@ -4,10 +4,14 @@ import { RouterProvider } from "react-router";
 import { router } from "./routers/router.tsx";
 import { Provider } from "react-redux";
 import { store } from "./reducers/store.ts";
+import { StyledEngineProvider } from "@mui/material";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <StyledEngineProvider injectFirst>
+                <RouterProvider router={router} />
+            </StyledEngineProvider>
         </Provider>
     </React.StrictMode>,
 );

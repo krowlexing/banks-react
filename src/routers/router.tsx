@@ -1,19 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import { BanksPage } from "../pages/BanksPage";
-import { requestBank, requestBanks } from "../network/api";
-import { actions, store } from "../reducers/store";
+import { requestBank } from "../network/api";
+import { fetchBanks, store } from "../reducers/store";
 import { BankPage } from "../pages/BankPage";
 import { EditPage } from "../pages/EditPage";
 import { FilePosterPage } from "../pages/FilePosterPage";
+import { Ed807Page } from "../pages/Ed807Page/Ed807Page";
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <BanksPage />,
-        loader: async () => {
-            const result = await requestBanks();
-            store.dispatch(actions.banks(result.data));
-            return 0;
-        },
     },
     {
         path: "/banks/:id/edit",
@@ -29,8 +25,22 @@ export const router = createBrowserRouter([
             return (await requestBank(+params["id"]!)).data;
         },
     },
+
+    {
+        path: "/files/upload",
+        element: <FilePosterPage />,
+    },
+    {
+        path: "/files/:id",
+        element: <BanksPage />,
+        loader: async req => {
+            const id = req.params["id"]!;
+            store.dispatch(fetchBanks(+id));
+            return 0;
+        },
+    },
     {
         path: "/files",
-        element: <FilePosterPage />,
+        element: <Ed807Page />,
     },
 ]);

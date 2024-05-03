@@ -1,8 +1,9 @@
 import axios from "axios";
 import { BankEntry } from "../data/BankEntry";
+import { Ed807 } from "../data/Ed807";
 
-export async function requestBanks() {
-    return await axios.get<BankEntry[]>("/api/banks");
+export async function requestBanks(id: number) {
+    return await axios.get<Ed807>(`/api/ed807/${id}`);
 }
 
 export async function requestInitBanks() {
@@ -18,5 +19,9 @@ export async function updateBank(bank: BankEntry) {
 }
 
 export async function postFile(file: File) {
-    return await axios.postForm(`/api/`, { file });
+    return await axios.postForm(`/api/files/`, { file });
+}
+
+export async function requestEntries() {
+    return await axios.get(`/api/ed807/`);
 }
