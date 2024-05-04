@@ -6,7 +6,7 @@ import {
     TableHead,
 } from "@mui/material";
 import { Ed807 } from "../../data/Ed807";
-import { Ed807Row } from "../Ed807Row";
+import { Ed807Row } from "./Ed807Row";
 import { tableHeader } from "../../utils/table";
 
 interface Props {

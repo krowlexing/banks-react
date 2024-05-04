@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router";
-import { Ed807Table } from "../../components/Ed807Table";
 import {
     fetchEntries,
     useAppDispatch,
     useAppSelector,
 } from "../../reducers/store";
+import { GenericTable, ed807Description } from "../../components/GenericTable";
+import { IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
 
 export function Ed807Page() {
     const navigate = useNavigate();
@@ -21,12 +23,26 @@ export function Ed807Page() {
                     onClick={() => {
                         dispatch(fetchEntries());
                     }}
-                ></button>
+                >
+                    Update
+                </button>
             </div>
-            <Ed807Table
-                entries={entries}
-                onRowClick={entry => navigate(`/files/${entry.id}`)}
-            />
+
+            <Paper>
+                <Stack direction="row" alignItems="center">
+                    <IconButton>
+                        <Add color="secondary" />
+                    </IconButton>
+                    <Typography>Добавить</Typography>
+                </Stack>
+
+                <GenericTable
+                    sx={{}}
+                    description={ed807Description}
+                    values={entries}
+                    onRowClick={entry => navigate(`/files/${entry.id}`)}
+                />
+            </Paper>
         </div>
     );
 }

@@ -15,3 +15,5 @@ export interface Ed807 {
 
     entries: BankEntry[];
 }
+
+export type Ed807Metadata = Omit<Ed807, "entries">;
