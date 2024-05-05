@@ -2,7 +2,14 @@ import { useNavigate } from "react-router";
 import { initBanks, useAppDispatch, useAppSelector } from "../reducers/store";
 import { GenericTable, TableDescription } from "../components/GenericTable";
 import { ParticipantInfo } from "../data/ParticipantInfo";
-import { Input, Paper } from "@mui/material";
+import {
+    Input,
+    MenuItem,
+    Paper,
+    Select,
+    Stack,
+    Typography,
+} from "@mui/material";
 import { useState } from "react";
 
 export function BanksPage() {
@@ -10,6 +17,8 @@ export function BanksPage() {
     const navigate = useNavigate();
     const entry = useAppSelector(state => state.requests.singleEntry.value);
     const init = useAppSelector(state => state.initBanks);
+    const [searchKey, setSearchKey] =
+        useState<keyof TableDescription<ParticipantInfo>>("russianName");
 
     const [query, setQuery] = useState("");
     const [sortingCriteria, setSortingCriteria] = useState<
@@ -21,7 +30,7 @@ export function BanksPage() {
     const banks = entry?.entries.map(e => e.participantInfo);
 
     const filteredBanks = banks?.filter(bank =>
-        bank.russianName.toLowerCase().includes(query.toLowerCase()),
+        `${bank[searchKey]}`!.toLowerCase().includes(query.toLowerCase()),
     );
 
     if (sortingCriteria) {
@@ -45,18 +54,30 @@ export function BanksPage() {
         });
     }
 
+    const keys = Object.keys(
+        bankDescription,
+    ) as (keyof TableDescription<ParticipantInfo>)[];
+
     return (
         <>
-            <div>BankPage</div>
-
-            <button
-                onClick={() => {
-                    dispatch(initBanks());
-                }}
-            >
-                Init
-            </button>
-            <Input onChange={e => setQuery(e.target.value)}></Input>
+            <Stack direction={"row"}>
+                <Typography children={"Search:"} />
+                <Input onChange={e => setQuery(e.target.value)}></Input>
+                <Select
+                    value={searchKey}
+                    onChange={e =>
+                        setSearchKey(
+                            e.target
+                                .value as keyof TableDescription<ParticipantInfo>,
+                        )
+                    }
+                    sx={{ height: "2.5rem" }}
+                >
+                    {keys.map(key => (
+                        <MenuItem value={key} children={bankDescription[key]} />
+                    ))}
+                </Select>
+            </Stack>
 
             <div>
                 {banks && (
