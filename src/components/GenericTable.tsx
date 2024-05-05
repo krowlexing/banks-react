@@ -14,13 +14,15 @@ interface Props<T> {
     description: TableDescription<T>;
     values: T[];
     onRowClick: (value: T) => void;
+    onColumnHeaderClick?: (key: keyof TableDescription<T>) => void;
     sx?: SxProps;
 }
 
 export function GenericTable<T>(props: Props<T>) {
-    const { description, values, onRowClick, sx } = props;
+    const { description, values, sx } = props;
+    const { onRowClick, onColumnHeaderClick } = props;
 
-    const header = generateHeader(description);
+    const header = generateHeader(description, onColumnHeaderClick);
     const body = generateBody(description, values, onRowClick);
 
     return (
@@ -31,12 +33,15 @@ export function GenericTable<T>(props: Props<T>) {
     );
 }
 
-function generateHeader<T>(description: TableDescription<T>) {
-    const values: string[] = Object.values(description);
+function generateHeader<T>(
+    description: TableDescription<T>,
+    onColumnClicked?: (key: keyof TableDescription<T>) => void,
+) {
+    const keys = Object.keys(description) as (keyof TableDescription<T>)[];
 
-    const cells = values.map(value => (
-        <TableCell>
-            <b>{value}</b>
+    const cells = keys.map(key => (
+        <TableCell onClick={() => onColumnClicked && onColumnClicked(key)}>
+            <b>{description[key]}</b>
         </TableCell>
     ));
 
