@@ -23,17 +23,6 @@ export function Ed807Page() {
 
     return (
         <div>
-            <div>
-                {entriesStatus}
-                <button
-                    onClick={() => {
-                        dispatch(fetchEntries());
-                    }}
-                >
-                    Update
-                </button>
-            </div>
-
             <Paper>
                 <Button
                     sx={{

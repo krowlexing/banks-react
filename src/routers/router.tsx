@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { BanksPage } from "../pages/BanksPage";
 import { requestBank } from "../network/api";
-import { fetchBanks, store } from "../reducers/store";
+import { fetchBanks, fetchEntries, store } from "../reducers/store";
 import { BankPage } from "../pages/BankPage";
 import { EditPage } from "../pages/EditPage";
 import { FilePosterPage } from "../pages/FilePosterPage";
@@ -9,7 +9,11 @@ import { Ed807Page } from "../pages/Ed807Page/Ed807Page";
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <BanksPage />,
+        element: <Ed807Page />,
+        loader: async () => {
+            store.dispatch(fetchEntries());
+            return 0;
+        },
     },
     {
         path: "/banks/:id/edit",

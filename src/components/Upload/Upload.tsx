@@ -1,11 +1,13 @@
 import { Box, Button, Input } from "@mui/material";
 import { useRef, useState } from "react";
 import { postFile } from "../../network/api";
+import { fetchEntries, useAppDispatch } from "../../reducers/store";
 
 interface Props {}
 
 export function Upload(props: Props) {
     const [files, openFile] = useFileInput();
+    const dispatch = useAppDispatch();
 
     return (
         <>
@@ -14,7 +16,7 @@ export function Upload(props: Props) {
             <Button
                 onClick={() => {
                     if (files?.length) {
-                        postFile(files[0]);
+                        postFile(files[0]).then(() => dispatch(fetchEntries()));
                     }
                 }}
             >
